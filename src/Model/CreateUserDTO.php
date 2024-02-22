@@ -8,10 +8,10 @@ final class CreateUserDTO
 {
     public function __construct(
         #[Assert\NotBlank, Assert\Length(min: 3, max: 50)]
-        public string $username,
+        public readonly string $username,
 
         #[Assert\NotBlank]
-        public string $password
+        public readonly string $password
     ) {
     }
 }
