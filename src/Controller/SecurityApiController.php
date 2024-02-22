@@ -8,12 +8,12 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class SecurityController extends AbstractController
+
+final class SecurityApiController extends AbstractController
 {
-    #[Route('/api/session', name: 'app_login', methods: ['POST'])]
+    #[Route('/api/session', name: 'api_session_create', methods: ['POST'])]
     public function login(#[CurrentUser] ?User $user = null): Response
     {
-
         if (null === $user) {
             return $this->json([
                 'message' => 'Invalid credentials',
