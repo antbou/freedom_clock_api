@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Api;
 
 use App\Entity\User;
-use App\Model\CreateUserDTO;
-use App\Model\UsersDTO;
+use App\Model\User\CreateUserDTO;
+use App\Model\User\UsersDTO;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[Route('/api/users', name: 'api_users_', format: 'json')]
-final class UsersApiController extends AbstractController
+final class UsersController extends AbstractController
 {
 
     public function __construct(

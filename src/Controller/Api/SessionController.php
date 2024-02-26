@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Api;
 
 use App\Entity\User;
 use Symfony\Component\HttpFoundation\Response;
@@ -9,7 +9,7 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
-final class SecurityApiController extends AbstractController
+final class SessionController extends AbstractController
 {
     #[Route('/api/session', name: 'api_session_create', methods: ['POST'])]
     public function login(#[CurrentUser] ?User $user = null): Response

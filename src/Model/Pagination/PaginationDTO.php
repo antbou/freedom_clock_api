@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Model;
+namespace App\Model\Pagination;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class Pagination
+final class PaginationDTO
 {
     public function __construct(
         #[Assert\NotBlank, Assert\Positive]
