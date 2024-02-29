@@ -3,7 +3,6 @@
 namespace App\Controller\Api;
 
 use App\Model\OAuth2\ConnectOAuth2DTO;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,27 +21,27 @@ final class OAuth2LinkController extends AbstractController
     ) {
     }
 
-    #[Route('/api/oauth', name: 'api_auth_oauth_connect', format: 'json',  methods: ['POST'])]
+    #[Route('/api/oauth', name: 'api_auth_oauth_connect',  methods: ['POST'])]
     public function create(#[MapRequestPayload] ConnectOAuth2DTO $Oauth2): JsonResponse
     {
+
+        $client = $this->clientRegistry->getClient($Oauth2->service);
+
         /**
          * @var OAuth2ClientInterface $client
          */
-        $client = $this->clientRegistry->getClient($Oauth2->service);
-
         $callback = sprintf('%s/authorize/%s/callback', $this->getParameter('app.frontend_url'), $Oauth2->service);
 
+        $link = $client->redirect(
+            self::SCOPES[$Oauth2->service],
+            ['redirect_uri' => $callback]
+        )->getTargetUrl();
 
-        return $this->json([
-            'link' => $client->redirect(self::SCOPES[$Oauth2->service], [
-                'redirect_uri' => $callback,
-            ])->getTargetUrl(),
-        ]);
+        return $this->json(['link' => $link])->setEncodingOptions(JSON_UNESCAPED_SLASHES);
     }
 
-    #[Route('/authorize/{service}/callback', name: 'api_auth_oauth_callback',  methods: ['GET'])]
-    public function callback(string $service): JsonResponse
+    #[Route('/authorize/callback', name: 'api_auth_oauth_callback',  methods: ['GET'])]
+    public function callback(): never
     {
-        return new JsonResponse(null, Response::HTTP_NOT_FOUND);
     }
 }
