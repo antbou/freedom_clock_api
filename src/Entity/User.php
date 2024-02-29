@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -35,6 +37,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $provider_id = null;
+
+    #[ORM\OneToMany(targetEntity: Quiz::class, mappedBy: 'createdBy')]
+    private Collection $quizzesCreated;
+
+    #[ORM\OneToMany(targetEntity: QuizParticipant::class, mappedBy: 'participant')]
+    private Collection $quizzesParticipated;
+
+    public function __construct()
+    {
+        $this->quizzesCreated = new ArrayCollection();
+        $this->quizzesParticipated = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -126,6 +140,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setProviderId(?string $provider_id): static
     {
         $this->provider_id = $provider_id;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Quiz>
+     */
+    public function getQuizzesCreated(): Collection
+    {
+        return $this->quizzesCreated;
+    }
+
+    public function addQuizzesCreated(Quiz $quizzesCreated): static
+    {
+        if (!$this->quizzesCreated->contains($quizzesCreated)) {
+            $this->quizzesCreated->add($quizzesCreated);
+            $quizzesCreated->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuizzesCreated(Quiz $quizzesCreated): static
+    {
+        if ($this->quizzesCreated->removeElement($quizzesCreated)) {
+            // set the owning side to null (unless already changed)
+            if ($quizzesCreated->getCreatedBy() === $this) {
+                $quizzesCreated->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, QuizParticipant>
+     */
+    public function getQuizzesParticipated(): Collection
+    {
+        return $this->quizzesParticipated;
+    }
+
+    public function addQuizzesParticipated(QuizParticipant $quizzesParticipated): static
+    {
+        if (!$this->quizzesParticipated->contains($quizzesParticipated)) {
+            $this->quizzesParticipated->add($quizzesParticipated);
+            $quizzesParticipated->setParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuizzesParticipated(QuizParticipant $quizzesParticipated): static
+    {
+        if ($this->quizzesParticipated->removeElement($quizzesParticipated)) {
+            // set the owning side to null (unless already changed)
+            if ($quizzesParticipated->getParticipant() === $this) {
+                $quizzesParticipated->setParticipant(null);
+            }
+        }
 
         return $this;
     }
