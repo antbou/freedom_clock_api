@@ -2,9 +2,9 @@
 
 namespace App\Controller\Api;
 
-use App\Entity\User;
-use App\Model\User\CreateUserDTO;
+use App\Factory\UserFactory;
 use App\Model\User\UsersDTO;
+use App\Model\User\CreateUserDTO;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,6 +14,7 @@ use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 #[Route('/api/users', name: 'api_users_', format: 'json')]
 final class UsersController extends AbstractController
@@ -23,7 +24,8 @@ final class UsersController extends AbstractController
         private readonly EntityManagerInterface $entityManager,
         private readonly ValidatorInterface $validator,
         private readonly UserPasswordHasherInterface $passwordHasher,
-        private readonly UserRepository $userRepository
+        private readonly UserRepository $userRepository,
+        private readonly NormalizerInterface $normalizer,
     ) {
     }
 
@@ -31,17 +33,19 @@ final class UsersController extends AbstractController
     public function create(
         #[MapRequestPayload(acceptFormat: 'json')] CreateUserDTO $userDto
     ): JsonResponse {
-        $user = $this->createUser($userDto);
 
-        $violations = $this->validator->validate($user);
+        $attributes = $this->normalizer->normalize($userDto);
+
+        $user = UserFactory::new($attributes)->withoutPersisting()->create();
+
+        $violations = $this->validator->validate($user->object());
         if (count($violations) > 0) {
             return $this->json($violations, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
+        $user->save();
 
-        return $this->json($user, Response::HTTP_CREATED);
+        return $this->json($user->object(), Response::HTTP_CREATED);
     }
 
     #[Route(name: 'list', methods: ['GET'])]
@@ -55,14 +59,5 @@ final class UsersController extends AbstractController
         );
 
         return $this->json($users, Response::HTTP_OK);
-    }
-
-    private function createUser(CreateUserDTO $userDto): User
-    {
-        $user = new User();
-        $user->setUsername($userDto->username);
-        $user->setPassword($this->passwordHasher->hashPassword($user, $userDto->password));
-
-        return $user;
     }
 }
