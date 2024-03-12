@@ -27,7 +27,7 @@ final class SessionController extends AbstractController
         ]);
     }
 
-    #[Route('/api/oauth/{service}/session', name: 'api_session_oauth_create')]
+    #[Route('/api/oauth/{service}/session', name: 'api_session_oauth_create', methods: ['GET', 'POST'])]
     public function connect(Request $request, ClientRegistry $clientRegistry): JsonResponse
     {
         return $this->json([
