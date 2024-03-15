@@ -10,8 +10,6 @@ use App\Repository\ImageRepository;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
-
-
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
 #[Vich\Uploadable]
 class Image
@@ -26,17 +24,21 @@ class Image
     #[Vich\UploadableField(mapping: 'images', fileNameProperty: 'filename', size: 'size')]
     private ?File $file = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $filename = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,  nullable: true)]
     private ?string $mimeType = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $size = null;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $createdBy = null;
 
     public function getId(): ?Uuid
     {
@@ -48,7 +50,7 @@ class Image
         return $this->filename;
     }
 
-    public function setFilename(string $filename): static
+    public function setFilename(?string $filename): static
     {
         $this->filename = $filename;
 
@@ -98,9 +100,21 @@ class Image
         return $this->size;
     }
 
-    public function setSize(int $size): static
+    public function setSize(?int $size): static
     {
         $this->size = $size;
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): static
+    {
+        $this->createdBy = $createdBy;
 
         return $this;
     }

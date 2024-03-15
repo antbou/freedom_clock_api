@@ -10,7 +10,7 @@ use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('api/quizzes', name: 'api_quizzes_', format: 'json')]
-class QuizzesController extends AbstractController
+final class QuizzesController extends AbstractController
 {
     #[Route(name: 'create', methods: ['POST'])]
     public function create(
