@@ -46,11 +46,7 @@ final class ImageFactory extends ModelFactory
      */
     protected function getDefaults(): array
     {
-        return [
-            'filename' => self::faker()->text(255),
-            'mimeType' => self::faker()->text(255),
-            'size' => self::faker()->randomNumber(),
-        ];
+        return [];
     }
 
     /**

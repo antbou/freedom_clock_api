@@ -3,6 +3,7 @@
 namespace App\Controller\Api;
 
 use App\Factory\QuizFactory;
+use App\Factory\ImageFactory;
 use App\Model\Quiz\CreateQuizDTO;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,8 +23,14 @@ final class QuizzesController extends AbstractController
             'title' => $quizDto->title,
             'introduction' => $quizDto->introduction,
             'createdBy' => $this->getUser(),
+            'image' => ImageFactory::createOne(
+                ['createdBy' => $this->getUser()]
+            )
         ]);
 
-        return new JsonResponse(['id' => $quiz->getId()], JsonResponse::HTTP_CREATED);
+        return new JsonResponse([
+            'id' => $quiz->getId(),
+            'image_id' => $quiz->getImage()->getId(),
+        ], JsonResponse::HTTP_CREATED);
     }
 }

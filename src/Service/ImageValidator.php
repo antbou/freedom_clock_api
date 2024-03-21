@@ -16,7 +16,7 @@ final class ImageValidator
         $this->validator = $validator;
     }
 
-    public function validate(UploadedFile $file): ConstraintViolationListInterface
+    public function validate(?UploadedFile $file): ConstraintViolationListInterface
     {
         return $this->validator->validate($file, [
             new Assert\NotNull(),
