@@ -1,4 +1,4 @@
-# Freedom clock
+# Quizzy backend
 
 A [Docker](https://www.docker.com/)-based installer and runtime for the [Symfony](https://symfony.com) web framework,
 with [FrankenPHP](https://frankenphp.dev) and [Caddy](https://caddyserver.com/) inside!
@@ -18,18 +18,6 @@ with [FrankenPHP](https://frankenphp.dev) and [Caddy](https://caddyserver.com/) 
 ### Oauth2
 
 #### Google
-
-As we use Google OAuth 2.0 API, you need to generate an API key (ID client OAuth) for this project. [The official documentation](https://developers.google.com/identity/protocols/oauth2) explains how to do it.
-
-```sh
-./bin/rails credentials:edit
-```
-
-This command should open a temporary `yml` file. You can then add Google's Book API key:
-
-```yml
-google_books_api_key: <YOUR_API_KEY>
-```
 
 ## Docs
 
