@@ -52,7 +52,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     /**
      * @param array|null<uuid> $ids
      */
-    public function findByIdsAndPagination(?int $page, ?int $limit, ?array $ids = []): Paginator
+    public function findByIds(?int $page, ?int $limit, ?array $ids = []): Paginator
     {
         $query = $this->createQueryBuilder('t');
 

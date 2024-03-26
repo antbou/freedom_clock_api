@@ -8,6 +8,7 @@ use App\Repository\QuestionRepository;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: QuestionRepository::class)]
 class Question
@@ -16,15 +17,19 @@ class Question
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    #[Groups(['question:read'])]
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['question:read'])]
     private ?string $text = null;
 
     #[ORM\Column(type: "string", enumType: QuestionType::class)]
+    #[Groups(['question:read'])]
     private ?QuestionType $type = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[Groups(['question:read'])]
     private ?Image $image = null;
 
     #[ORM\OneToMany(targetEntity: Option::class, mappedBy: 'question', orphanRemoval: true)]

@@ -45,19 +45,19 @@ final class UsersController extends AbstractController
 
         $user->save();
 
-        return $this->json($user->object(), Response::HTTP_CREATED);
+        return $this->json(data: $user->object(), status: Response::HTTP_CREATED, context: ['groups' => ['user:read']]);
     }
 
     #[Route(name: 'list', methods: ['GET'])]
     public function list(
         #[MapRequestPayload(acceptFormat: 'json')] UsersDTO $usersDto
     ): JsonResponse {
-        $users = $this->userRepository->findByIdsAndPagination(
+        $users = $this->userRepository->findByIds(
             page: $usersDto->pagination?->page,
             limit: $usersDto->pagination?->limit,
             ids: $usersDto->ids
         );
 
-        return $this->json($users, Response::HTTP_OK);
+        return $this->json(data: $users, status: Response::HTTP_OK, context: ['groups' => ['user:read']]);
     }
 }

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Model\User;
+namespace App\Model\Quiz;
 
 use App\Model\Pagination\PaginationDTO;
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class UsersDTO
+final class QuizzesDTO
 {
     public function __construct(
         #[Assert\Valid]
@@ -13,7 +13,7 @@ final class UsersDTO
 
         #[Assert\All([
             new Assert\Uuid(),
-            new Assert\NotBlank,
+            new Assert\NotBlank
         ])]
         public readonly ?array $ids = null,
     ) {

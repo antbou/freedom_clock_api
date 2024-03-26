@@ -18,25 +18,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class ImagesController extends AbstractController
 {
     public function __construct(
-        private ValidatorInterface $validator,
         private EntityManagerInterface $em,
         private ImageValidator $imageValidator
     ) {
     }
 
     #[Route('/{id}', name: 'show', methods: ['GET'])]
-    public function show(Image $image, UploaderHelper $uploaderHelper): JsonResponse
+    public function show(Image $image): JsonResponse
     {
-        $url = $uploaderHelper->asset($image);
-
-        return $this->json([
-            'id' => $image->getId(),
-            'url' => $url,
-        ])->setEncodingOptions(JSON_UNESCAPED_SLASHES);
+        return $this->json(data: $image, context: [
+            'groups' => ['image:read']
+        ]);
     }
 
     #[Route('/{id}', name: 'create', methods: ['POST'])]
-    #[IsGranted(attribute: 'update', subject: 'image', message: 'You must be the ressource author to create an image related to it',  statusCode: Response::HTTP_FORBIDDEN)]
+    #[IsGranted(attribute: 'update', subject: 'image', message: 'You must be the ressource author to create an image related to it',  statusCode: Response::HTTP_UNAUTHORIZED)]
     public function upload(Image $image, Request $request): JsonResponse
     {
         $uploadedFile = $request->files->get('file') ?? null;
@@ -50,9 +46,6 @@ final class ImagesController extends AbstractController
         $this->em->persist($image);
         $this->em->flush();
 
-        return $this->json([
-            'id' => $image->getId(),
-            'filename' => $image->getFilename(),
-        ], Response::HTTP_CREATED);
+        return $this->json(data: $image, status: Response::HTTP_CREATED, context: ['groups' => ['image:read']]);
     }
 }

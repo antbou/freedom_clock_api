@@ -8,6 +8,8 @@ use App\Repository\OptionRepository;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Serializer\Attribute\MaxDepth;
 
 #[ORM\Entity(repositoryClass: OptionRepository::class)]
 class Option
@@ -16,15 +18,21 @@ class Option
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    #[Groups(['option:read'])]
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['option:read'])]
+
     private ?string $text = null;
 
     #[ORM\Column]
+    #[Groups(['option:read'])]
     private ?bool $isCorrect = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[Groups(['option:read'])]
+    #[MaxDepth(1)]
     private ?Image $image = null;
 
     #[ORM\ManyToOne(inversedBy: 'options')]

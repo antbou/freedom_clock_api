@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class CreateQuestionDTO
 {
     public function __construct(
-        #[Assert\NotNull, Assert\Length(max: 255)]
+        #[Assert\NotNull, Assert\NotBlank, Assert\Length(max: 255)]
         public readonly string $text,
 
         #[Assert\NotNull]

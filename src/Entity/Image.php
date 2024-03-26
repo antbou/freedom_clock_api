@@ -8,6 +8,7 @@ use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
 use App\Repository\ImageRepository;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
@@ -18,6 +19,7 @@ class Image
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    #[Groups(['image:read'])]
     private ?Uuid $id = null;
 
     // NOTE: This is not a mapped field of entity metadata, just a simple property.
@@ -39,6 +41,9 @@ class Image
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $createdBy = null;
+
+    #[Groups(['image:read'])]
+    private ?string $url = null;
 
     public function getId(): ?Uuid
     {
@@ -117,5 +122,17 @@ class Image
         $this->createdBy = $createdBy;
 
         return $this;
+    }
+
+    public function setUrl(?string $url): static
+    {
+        $this->url = $url;
+
+        return $this;
+    }
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
     }
 }

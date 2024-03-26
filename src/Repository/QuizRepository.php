@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Quiz;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Service\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Quiz>
@@ -21,28 +22,43 @@ class QuizRepository extends ServiceEntityRepository
         parent::__construct($registry, Quiz::class);
     }
 
-//    /**
-//     * @return Quiz[] Returns an array of Quiz objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('q')
-//            ->andWhere('q.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('q.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @param array|null<uuid> $ids
+     */
+    public function findByIds(?int $page, ?int $limit, ?array $ids = []): Paginator
+    {
+        $query = $this->createQueryBuilder('t');
 
-//    public function findOneBySomeField($value): ?Quiz
-//    {
-//        return $this->createQueryBuilder('q')
-//            ->andWhere('q.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        if (null !== $ids) {
+            $query->andWhere('t.id IN (:ids)')->setParameter('ids', $ids);
+        }
+
+        $query->orderBy('t.id', 'ASC')->getQuery();
+        return new Paginator($query, currentPage: $page, limit: $limit, name: 'quizzes');
+    }
+
+    //    /**
+    //     * @return Quiz[] Returns an array of Quiz objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('q')
+    //            ->andWhere('q.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('q.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
+
+    //    public function findOneBySomeField($value): ?Quiz
+    //    {
+    //        return $this->createQueryBuilder('q')
+    //            ->andWhere('q.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }
