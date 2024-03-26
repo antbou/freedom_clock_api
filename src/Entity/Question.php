@@ -21,8 +21,8 @@ class Question
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $text = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $type = null;
+    #[ORM\Column(type: "string", enumType: QuestionType::class)]
+    private ?QuestionType $type = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Image $image = null;
@@ -56,12 +56,12 @@ class Question
         return $this;
     }
 
-    public function getType(): ?string
+    public function getType(): ?QuestionType
     {
         return $this->type;
     }
 
-    public function setType(string $type): static
+    public function setType(QuestionType $type): static
     {
         $this->type = $type;
 

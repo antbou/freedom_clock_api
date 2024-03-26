@@ -14,7 +14,7 @@ use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-#[Route('api/images', name: 'api_images_')]
+#[Route('api/images', name: 'api_images_', format: 'json')]
 final class ImagesController extends AbstractController
 {
     public function __construct(
@@ -35,9 +35,9 @@ final class ImagesController extends AbstractController
         ])->setEncodingOptions(JSON_UNESCAPED_SLASHES);
     }
 
-    #[Route('/{id}', name: 'create', methods: ['POST'], format: 'form')]
-    #[IsGranted(attribute: 'update', subject: 'image', message: 'You must be the quiz author to create an image related to it',  statusCode: Response::HTTP_FORBIDDEN)]
-    public function create(Image $image, Request $request): JsonResponse
+    #[Route('/{id}', name: 'create', methods: ['POST'])]
+    #[IsGranted(attribute: 'update', subject: 'image', message: 'You must be the ressource author to create an image related to it',  statusCode: Response::HTTP_FORBIDDEN)]
+    public function upload(Image $image, Request $request): JsonResponse
     {
         $uploadedFile = $request->files->get('file') ?? null;
         $errors = $this->imageValidator->validate($uploadedFile);
@@ -53,6 +53,6 @@ final class ImagesController extends AbstractController
         return $this->json([
             'id' => $image->getId(),
             'filename' => $image->getFilename(),
-        ]);
+        ], Response::HTTP_CREATED);
     }
 }
