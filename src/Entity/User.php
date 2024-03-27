@@ -9,7 +9,9 @@ use Doctrine\Common\Collections\Collection;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints\PasswordStrength;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
@@ -26,11 +28,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Groups(['user:read'])]
+    #[Groups(['user:read', 'user:write'])]
+    #[Assert\NotBlank, Assert\Length(min: 3, max: 180)]
     private ?string $username = null;
 
     #[ORM\Column]
     private array $roles = [];
+
+    #[Assert\PasswordStrength(
+        minScore: PasswordStrength::STRENGTH_MEDIUM,
+    ), Assert\NotBlank]
+    #[Groups(['user:write'])]
+    private ?string $plainPassword = null;
 
     /**
      * @var string The hashed password
@@ -209,5 +218,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    public function setPlainPassword(string $plainPassword): static
+    {
+        $this->plainPassword = $plainPassword;
+
+        return $this;
+    }
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function __toString(): string
+    {
+        return $this->username;
     }
 }

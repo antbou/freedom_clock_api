@@ -9,7 +9,8 @@ use Doctrine\Common\Collections\Collection;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Attribute\Groups;
-use Symfony\Component\Serializer\Attribute\MaxDepth;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: OptionRepository::class)]
 class Option
@@ -22,17 +23,17 @@ class Option
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['option:read'])]
-
+    #[Groups(['option:read', 'option:write'])]
+    #[Assert\Length(min: 3, max: 255)]
     private ?string $text = null;
 
     #[ORM\Column]
-    #[Groups(['option:read'])]
+    #[Groups(['option:read', 'option:write'])]
+    #[Assert\NotNull, Assert\Type('bool')]
     private ?bool $isCorrect = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[Groups(['option:read'])]
-    #[MaxDepth(1)]
     private ?Image $image = null;
 
     #[ORM\ManyToOne(inversedBy: 'options')]

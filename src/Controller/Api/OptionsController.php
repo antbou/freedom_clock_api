@@ -2,11 +2,11 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\Option;
 use App\Entity\Question;
 use App\Factory\ImageFactory;
-use App\Factory\OptionFactory;
-use App\Model\Option\CreateOptionDTO;
 use App\Security\Voter\OptionVoter;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -18,24 +18,34 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('api/questions/{id}/options', requirements: ['id' => Requirement::UUID], name: 'api_options_', format: 'json')]
 final class OptionsController extends AbstractController
 {
+
+    public function __construct(
+        private EntityManagerInterface $entityManager
+    ) {
+    }
+
     #[Route(name: 'create', methods: ['POST'])]
     #[IsGranted(attribute: OptionVoter::CREATE, subject: 'question', message: 'You must be the question author to create an option related to it', statusCode: Response::HTTP_UNAUTHORIZED)]
     public function create(
         Question $question,
-        #[MapRequestPayload(acceptFormat: 'json')] CreateOptionDTO $optionDto
+        #[MapRequestPayload(
+            acceptFormat: 'json',
+            serializationContext: [
+                'groups' => ['option:write']
+            ]
+        )] Option $option
     ): JsonResponse {
 
-        $option = OptionFactory::createOne([
-            'text' => $optionDto->text,
-            'isCorrect' => $optionDto->isCorrect,
-            'question' => $question,
-            'image' => ImageFactory::createOne(
-                ['createdBy' => $this->getUser()]
-            )
-        ]);
+        $option->setQuestion($question);
+        $option->setImage(ImageFactory::createOne(
+            ['createdBy' => $this->getUser()]
+        )->object());
+
+        $this->entityManager->persist($option);
+        $this->entityManager->flush();
 
         return $this->json(
-            data: $option->object(),
+            data: $option,
             status: Response::HTTP_CREATED,
             context: ['groups' => ['option:read', 'image:read']]
         );

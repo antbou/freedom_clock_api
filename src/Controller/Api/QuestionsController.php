@@ -20,14 +20,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class QuestionsController extends AbstractController
 {
     #[Route(name: 'create', methods: ['POST'])]
-    #[IsGranted(attribue: QuestionVoter::CREATE, subject: 'quiz', message: 'You must be the quiz author to create a question related to it', statusCode: Response::HTTP_UNAUTHORIZED)]
+    #[IsGranted(attribute: QuestionVoter::CREATE, subject: 'quiz', message: 'You must be the quiz author to create a question related to it', statusCode: Response::HTTP_UNAUTHORIZED)]
     public function create(
         Quiz $quiz,
         #[MapRequestPayload(acceptFormat: 'json')] CreateQuestionDTO $questionDto
     ): JsonResponse {
         $question = QuestionFactory::createOne([
             'text' => $questionDto->text,
-            'type' => QuestionType::MULTIPLE_CHOICE,
+            'type' => QuestionType::from($questionDto->type),
             'quiz' => $quiz,
             'image' => ImageFactory::createOne(
                 ['createdBy' => $this->getUser()]

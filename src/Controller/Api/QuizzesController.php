@@ -3,11 +3,9 @@
 namespace App\Controller\Api;
 
 use App\Entity\Quiz;
-use App\Factory\QuizFactory;
 use App\Factory\ImageFactory;
 use App\Model\Quiz\QuizzesDTO;
 use App\Entity\Enum\QuizStatus;
-use App\Model\Quiz\CreateQuizDTO;
 use App\Model\Quiz\StatusQuizDTO;
 use App\Security\Voter\QuizVoter;
 use App\Repository\QuizRepository;
@@ -32,19 +30,18 @@ final class QuizzesController extends AbstractController
     #[Route(name: 'create', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
     public function create(
-        #[MapRequestPayload(acceptFormat: 'json')] CreateQuizDTO $quizDto
+        #[MapRequestPayload(acceptFormat: 'json', serializationContext: [
+            'groups' => ['quiz:write']
+        ])] Quiz $quiz
     ): JsonResponse {
-        $quiz = QuizFactory::createOne([
-            'title' => $quizDto->title,
-            'introduction' => $quizDto->introduction,
-            'createdBy' => $this->getUser(),
-            'image' => ImageFactory::createOne(
-                ['createdBy' => $this->getUser()]
-            )
-        ]);
+        $image = ImageFactory::createOne(['createdBy' => $this->getUser()])->object();
+        $quiz->setImage($image);
+
+        $this->entityManager->persist($quiz);
+        $this->entityManager->flush();
 
         return $this->json(
-            data: $quiz->object(),
+            data: $quiz,
             status: JsonResponse::HTTP_CREATED,
             context: ['groups' => ['quiz:read', 'image:read']],
         );

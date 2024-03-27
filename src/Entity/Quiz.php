@@ -11,6 +11,7 @@ use Symfony\Bridge\Doctrine\Types\UuidType;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: QuizRepository::class)]
 #[HasLifecycleCallbacks]
@@ -24,13 +25,13 @@ class Quiz
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['quiz:read'])]
-
+    #[Groups(['quiz:read', 'quiz:write'])]
+    #[Assert\NotBlank, Assert\Length(min: 3, max: 50)]
     private ?string $title = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['quiz:read'])]
-
+    #[Groups(['quiz:read', 'quiz:write'])]
+    #[Assert\Length(min: 3, max: 50)]
     private ?string $introduction = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]

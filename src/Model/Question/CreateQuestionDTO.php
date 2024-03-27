@@ -9,15 +9,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class CreateQuestionDTO
 {
     public function __construct(
-        #[Assert\NotNull, Assert\NotBlank, Assert\Length(max: 255)]
+        #[Assert\Length(min: 3, max: 255)]
         public readonly string $text,
 
-        #[Assert\NotNull]
+        #[Assert\NotBlank]
         #[BackedEnum(enumType: QuestionType::class)]
         public readonly string $type,
-
-        #[Assert\NotBlank]
-        public readonly array $options = [],
     ) {
     }
 }
