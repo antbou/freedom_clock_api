@@ -9,12 +9,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Routing\Requirement\Requirement;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-#[Route('api/images', name: 'api_images_', format: 'json')]
+#[Route('api/images/{id}', name: 'api_images_', format: 'json', requirements: ['id' => Requirement::UUID])]
 final class ImagesController extends AbstractController
 {
     public function __construct(
@@ -23,7 +22,7 @@ final class ImagesController extends AbstractController
     ) {
     }
 
-    #[Route('/{id}', name: 'show', methods: ['GET'])]
+    #[Route(name: 'show', methods: ['GET'])]
     public function show(Image $image): JsonResponse
     {
         return $this->json(data: $image, context: [
@@ -31,7 +30,7 @@ final class ImagesController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'create', methods: ['POST'])]
+    #[Route(name: 'create', methods: ['POST'])]
     #[IsGranted(attribute: 'update', subject: 'image', message: 'You must be the ressource author to create an image related to it',  statusCode: Response::HTTP_UNAUTHORIZED)]
     public function upload(Image $image, Request $request): JsonResponse
     {

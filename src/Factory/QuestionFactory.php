@@ -3,7 +3,7 @@
 namespace App\Factory;
 
 use App\Entity\Question;
-use App\Entity\QuestionType;
+use App\Entity\Enum\QuestionType;
 use App\Repository\QuestionRepository;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;

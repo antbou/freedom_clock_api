@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Symfony\Component\Uid\Uuid;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Enum\QuestionType;
 use App\Repository\QuestionRepository;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Bridge\Doctrine\Types\UuidType;

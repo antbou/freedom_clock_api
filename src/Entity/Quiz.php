@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Enum\QuizStatus;
 use Symfony\Component\Uid\Uuid;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\QuizRepository;
@@ -54,10 +55,15 @@ class Quiz
     #[ORM\OneToMany(targetEntity: QuizParticipant::class, mappedBy: 'quiz')]
     private Collection $participants;
 
+    #[ORM\Column(type: "string", enumType: QuizStatus::class)]
+    #[Groups(['quiz:read'])]
+    private ?QuizStatus $status = null;
+
     public function __construct()
     {
         $this->questions = new ArrayCollection();
         $this->participants = new ArrayCollection();
+        $this->status = QuizStatus::DRAFT;
     }
 
     public function getId(): ?Uuid
@@ -192,6 +198,18 @@ class Quiz
                 $participant->setQuiz(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStatus(): ?QuizStatus
+    {
+        return $this->status;
+    }
+
+    public function setStatus(QuizStatus $status): static
+    {
+        $this->status = $status;
 
         return $this;
     }

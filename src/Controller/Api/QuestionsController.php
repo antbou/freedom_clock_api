@@ -3,9 +3,10 @@
 namespace App\Controller\Api;
 
 use App\Entity\Quiz;
-use App\Entity\QuestionType;
 use App\Factory\ImageFactory;
 use App\Factory\QuestionFactory;
+use App\Entity\Enum\QuestionType;
+use App\Security\Voter\QuestionVoter;
 use App\Model\Question\CreateQuestionDTO;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -19,7 +20,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class QuestionsController extends AbstractController
 {
     #[Route(name: 'create', methods: ['POST'])]
-    #[IsGranted(attribute: 'create', subject: 'quiz', message: 'You must be the quiz author to create a question related to it',  statusCode: Response::HTTP_UNAUTHORIZED)]
+    #[IsGranted(attribue: QuestionVoter::CREATE, subject: 'quiz', message: 'You must be the quiz author to create a question related to it', statusCode: Response::HTTP_UNAUTHORIZED)]
     public function create(
         Quiz $quiz,
         #[MapRequestPayload(acceptFormat: 'json')] CreateQuestionDTO $questionDto

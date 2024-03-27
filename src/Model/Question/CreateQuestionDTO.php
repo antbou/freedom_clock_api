@@ -2,7 +2,7 @@
 
 namespace App\Model\Question;
 
-use App\Entity\QuestionType;
+use App\Entity\Enum\QuestionType;
 use App\Validator\BackedEnum;
 use Symfony\Component\Validator\Constraints as Assert;
 
