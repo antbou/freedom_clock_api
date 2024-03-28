@@ -4,22 +4,25 @@ namespace App\Entity;
 
 use Symfony\Component\Uid\Uuid;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ParticipantRepository;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Bridge\Doctrine\Types\UuidType;
-use App\Repository\QuizParticipantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Attribute\Groups;
 
-#[ORM\Entity(repositoryClass: QuizParticipantRepository::class)]
-class QuizParticipant
+#[ORM\Entity(repositoryClass: ParticipantRepository::class)]
+class Participant
 {
     #[ORM\Id]
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    #[Groups(['participant:read'])]
     private ?Uuid $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'quizzesParticipated')]
-    private ?User $participant = null;
+    #[Groups(['participant:read'])]
+    private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'participants')]
     private ?Quiz $quiz = null;
@@ -37,14 +40,14 @@ class QuizParticipant
         return $this->id;
     }
 
-    public function getParticipant(): ?User
+    public function getUser(): ?User
     {
-        return $this->participant;
+        return $this->user;
     }
 
-    public function setParticipant(?User $participant): static
+    public function setUser(?User $user): static
     {
-        $this->participant = $participant;
+        $this->user = $user;
 
         return $this;
     }

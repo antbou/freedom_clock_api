@@ -53,7 +53,7 @@ class Quiz
     #[Groups(['quiz:read'])]
     private ?User $createdBy = null;
 
-    #[ORM\OneToMany(targetEntity: QuizParticipant::class, mappedBy: 'quiz')]
+    #[ORM\OneToMany(targetEntity: Participant::class, mappedBy: 'quiz')]
     private Collection $participants;
 
     #[ORM\Column(type: "string", enumType: QuizStatus::class)]
@@ -174,14 +174,14 @@ class Quiz
     }
 
     /**
-     * @return Collection<int, QuizParticipant>
+     * @return Collection<int, Participant>
      */
     public function getParticipants(): Collection
     {
         return $this->participants;
     }
 
-    public function addParticipant(QuizParticipant $participant): static
+    public function addParticipant(Participant $participant): static
     {
         if (!$this->participants->contains($participant)) {
             $this->participants->add($participant);
@@ -191,7 +191,7 @@ class Quiz
         return $this;
     }
 
-    public function removeParticipant(QuizParticipant $participant): static
+    public function removeParticipant(Participant $participant): static
     {
         if ($this->participants->removeElement($participant)) {
             // set the owning side to null (unless already changed)

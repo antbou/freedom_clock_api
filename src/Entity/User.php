@@ -57,7 +57,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Quiz::class, mappedBy: 'createdBy')]
     private Collection $quizzesCreated;
 
-    #[ORM\OneToMany(targetEntity: QuizParticipant::class, mappedBy: 'participant')]
+    #[ORM\OneToMany(targetEntity: Participant::class, mappedBy: 'user')]
     private Collection $quizzesParticipated;
 
     public function __construct()
@@ -191,14 +191,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, QuizParticipant>
+     * @return Collection<int, Participant>
      */
     public function getQuizzesParticipated(): Collection
     {
         return $this->quizzesParticipated;
     }
 
-    public function addQuizzesParticipated(QuizParticipant $quizzesParticipated): static
+    public function addQuizzesParticipated(Participant $quizzesParticipated): static
     {
         if (!$this->quizzesParticipated->contains($quizzesParticipated)) {
             $this->quizzesParticipated->add($quizzesParticipated);
@@ -208,7 +208,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function removeQuizzesParticipated(QuizParticipant $quizzesParticipated): static
+    public function removeQuizzesParticipated(Participant $quizzesParticipated): static
     {
         if ($this->quizzesParticipated->removeElement($quizzesParticipated)) {
             // set the owning side to null (unless already changed)

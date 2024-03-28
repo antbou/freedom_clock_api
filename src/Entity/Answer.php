@@ -18,7 +18,7 @@ class Answer
     private ?Uuid $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'answers')]
-    private ?QuizParticipant $participant = null;
+    private ?Participant $participant = null;
 
     #[ORM\ManyToOne(inversedBy: 'answers')]
     private ?Option $selectedOption = null;
@@ -28,12 +28,12 @@ class Answer
         return $this->id;
     }
 
-    public function getParticipant(): ?QuizParticipant
+    public function getParticipant(): ?Participant
     {
         return $this->participant;
     }
 
-    public function setParticipant(?QuizParticipant $participant): static
+    public function setParticipant(?Participant $participant): static
     {
         $this->participant = $participant;
 
