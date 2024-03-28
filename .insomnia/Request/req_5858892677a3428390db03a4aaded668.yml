@@ -1,0 +1,30 @@
+_id: req_5858892677a3428390db03a4aaded668
+type: Request
+parentId: fld_9adf4451d9084e74a5e8aba2c0740322
+modified: 1711613666862
+created: 1711613620894
+url: https://localhost/api/questions/018e8048-236b-7d2d-ab17-8670647a32e4/options
+name: Options
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+      "text": "asdasdasdasdad",
+      "isCorrect": true
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_98cc03237ffc49b8b4838f45b11cdb1f
+authentication: {}
+metaSortKey: -1711613593023
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

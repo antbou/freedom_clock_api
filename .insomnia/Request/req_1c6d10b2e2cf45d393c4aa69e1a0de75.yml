@@ -1,0 +1,35 @@
+_id: req_1c6d10b2e2cf45d393c4aa69e1a0de75
+type: Request
+parentId: fld_b950ae9813df4b999d06e3f88aaa8a4d
+modified: 1711614008918
+created: 1711613979693
+url: https://localhost/api/session
+name: Session
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"username": "ttasdasdtt",
+    	"password": "Bonjfsdfsd__our123$"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+  - name: accept
+    value: application/json
+  - name: Cookie
+    value: PHPSESSID=7a5sj8uomtbck46b6sasfqppjm;
+      __Host-GAPS=1%3ANR3ITPP_nuXgLY302wY1gtR9EH6ArA%3AWMPJpDGJcpMEe1QS;
+      GEM=CgptaW51dGVtYWlkEJTc0KjeMQ%3D%3D
+authentication: {}
+metaSortKey: -1711613908900.5
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

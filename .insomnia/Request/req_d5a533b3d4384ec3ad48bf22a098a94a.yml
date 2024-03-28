@@ -1,0 +1,28 @@
+_id: req_d5a533b3d4384ec3ad48bf22a098a94a
+type: Request
+parentId: fld_9adf4451d9084e74a5e8aba2c0740322
+modified: 1711613664552
+created: 1711613593073
+url: https://localhost/api/questions/018e8048-236b-7d2d-ab17-8670647a32e4/options
+name: Options
+description: ""
+method: GET
+body:
+  mimeType: application/json
+parameters: []
+headers:
+  - name: Accept
+    value: application/json
+    id: pair_aebf1cfcb4ad4a5aa0d3968a2e0c043c
+  - name: Content-Type
+    value: application/json
+    id: pair_82217b3059ac498f82228abfbad322a6
+authentication: {}
+metaSortKey: -1711613593073
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

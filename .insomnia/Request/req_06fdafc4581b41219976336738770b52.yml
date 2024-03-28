@@ -1,0 +1,28 @@
+_id: req_06fdafc4581b41219976336738770b52
+type: Request
+parentId: fld_0ab173d371b54770b7da664833908ae1
+modified: 1711613687126
+created: 1711613643061
+url: https://localhost/api/quizzes/018e7fec-bebf-70dd-98eb-59b13c7e9c39/questions
+name: Questions
+description: ""
+method: GET
+body:
+  mimeType: application/json
+parameters: []
+headers:
+  - name: Accept
+    value: application/json
+    id: pair_b4a731e1eb9c4e5eb9dd577e24f86b81
+  - name: Content-Type
+    value: application/json
+    id: pair_88447e909b1b41bb86dba7b079a9aa54
+authentication: {}
+metaSortKey: -1711613643061
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

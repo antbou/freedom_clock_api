@@ -1,0 +1,25 @@
+_id: req_5dbecb147a3946cb8cb55a6c6fce86f4
+type: Request
+parentId: fld_b950ae9813df4b999d06e3f88aaa8a4d
+modified: 1711613977509
+created: 1711613944625
+url: https://localhost/api/session
+name: Session
+description: ""
+method: DELETE
+body: {}
+parameters: []
+headers:
+  - name: Cookie
+    value: PHPSESSID=7a5sj8uomtbck46b6sasfqppjm;
+      __Host-GAPS=1%3ANR3ITPP_nuXgLY302wY1gtR9EH6ArA%3AWMPJpDGJcpMEe1QS;
+      GEM=CgptaW51dGVtYWlkEJTc0KjeMQ%3D%3D
+authentication: {}
+metaSortKey: -1711613908950.5
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

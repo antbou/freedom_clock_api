@@ -1,0 +1,30 @@
+_id: req_7afe7c6317b34f8ebff983f2312bca8f
+type: Request
+parentId: fld_51dfbba7901140a586d3a0c18b1efba7
+modified: 1711613941161
+created: 1711613928931
+url: https://localhost/api/users
+name: Users
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"username": "ttasdasdtt",
+    	"plainPassword": "Bonjfsdfsd__our123$"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_54742a2f19f848fdb4201e7e2ed5fd98
+authentication: {}
+metaSortKey: -1711613928931
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global
