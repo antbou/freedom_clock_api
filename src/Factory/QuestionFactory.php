@@ -47,10 +47,7 @@ final class QuestionFactory extends ModelFactory
      */
     protected function getDefaults(): array
     {
-        return [
-            'quiz' => QuizFactory::new(),
-            'type' => self::faker()->randomElement(QuestionType::cases()),
-        ];
+        return [];
     }
 
     /**

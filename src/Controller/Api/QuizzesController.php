@@ -36,7 +36,7 @@ final class QuizzesController extends AbstractController
     ): JsonResponse {
         $image = ImageFactory::createOne(['createdBy' => $this->getUser()])->object();
         $quiz->setImage($image);
-
+        $quiz->setCreatedBy($this->getUser());
         $this->entityManager->persist($quiz);
         $this->entityManager->flush();
 

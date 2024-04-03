@@ -1,15 +1,10 @@
 <?php
 
-namespace App\Validator;
+namespace App\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
-use Attribute;
 
-/**
- * @Annotation
- * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
- */
-#[Attribute(Attribute::TARGET_PROPERTY | Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
+#[\Attribute]
 final class EntityExists extends Constraint
 {
     public function __construct(
@@ -28,9 +23,6 @@ final class EntityExists extends Constraint
         return 'entity';
     }
 
-    /**
-     * @return string[]
-     */
     public function getRequiredOptions(): array
     {
         return ['entity'];

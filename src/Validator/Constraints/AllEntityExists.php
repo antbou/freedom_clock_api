@@ -1,37 +1,26 @@
 <?php
 
+namespace App\Validator\Constraints;
 
-namespace App\Validator;
-
-use Attribute;
-use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints\Compound;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @Annotation
- * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
- */
-#[Attribute(Attribute::TARGET_PROPERTY | Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
+#[\Attribute]
 final class AllEntityExists extends Compound
 {
     public function __construct(
-        public string $type,
+        public readonly string $type,
     ) {
         parent::__construct(options: []);
     }
 
-    /**
-     * @param mixed[] $options
-     *
-     * @return Constraint[]
-     */
     protected function getConstraints(array $options): array
     {
         return [
             new Assert\All([
                 'constraints' => [
                     new Assert\NotNull(),
+                    new Assert\Uuid(),
                     new EntityExists(entity: $this->type),
                 ],
             ]),

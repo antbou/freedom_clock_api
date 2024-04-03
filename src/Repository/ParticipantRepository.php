@@ -36,6 +36,17 @@ class ParticipantRepository extends ServiceEntityRepository
         return new Paginator($query, currentPage: $page, limit: $limit, name: 'participants');
     }
 
+    public function findByIdsAndQuiz(array $ids, Quiz $quiz): array
+    {
+        return $this->createQueryBuilder('t')
+            ->where('t.quiz = :quizId')
+            ->andWhere('t.id IN (:ids)')
+            ->setParameter('quizId', $quiz->getId())
+            ->setParameter('ids', $ids)
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Participant[] Returns an array of Participant objects
     //     */

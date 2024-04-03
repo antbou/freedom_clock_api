@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Validator;
+namespace App\Validator\Constraints;
 
+use Symfony\Component\Uid\Uuid;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -20,7 +21,7 @@ final class EntityExistsValidator extends ConstraintValidator
             throw new UnexpectedTypeException($constraint, EntityExists::class);
         }
 
-        if (null === $value || '' === $value) {
+        if (null === $value || '' === $value || !Uuid::isValid($value)) {
             return;
         }
 
