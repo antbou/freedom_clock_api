@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/api/users', name: 'api_users_', format: 'json')]
 final class UsersController extends AbstractController
@@ -49,5 +50,12 @@ final class UsersController extends AbstractController
         );
 
         return $this->json(data: $users, status: Response::HTTP_OK, context: ['groups' => ['user:read']]);
+    }
+
+    #[Route('/me', name: 'me', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function me(): JsonResponse
+    {
+        return $this->json(data: $this->getUser(), context: ['groups' => ['user:read']]);
     }
 }
