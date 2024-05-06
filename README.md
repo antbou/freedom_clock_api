@@ -14,7 +14,7 @@ Quizzy is a backend project built on a Docker-based infrastructure for the [Symf
 
 To run Quizzy, follow these steps:
 
-1. **Environment Setup**: Create a file named `env.local` and set your database URL:
+1. **Environment Setup**: Create a file named `.env.local` and set your database URL:
     ```dotenv
     DATABASE_URL="postgresql://app:!ChangeMe!@127.0.0.1:5432/quizzy?serverVersion=16&charset=utf8"
     ```
