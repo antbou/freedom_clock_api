@@ -23,6 +23,7 @@ final class SessionController extends AbstractController
         }
 
         return $this->json([
+            'id' => $user->getId(),
             'username' => $user->getUsername(),
         ]);
     }
