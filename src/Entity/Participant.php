@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use OpenApi\Attributes as OA;
 use Symfony\Component\Uid\Uuid;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ParticipantRepository;
@@ -18,6 +19,7 @@ class Participant
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     #[Groups(['participant:read'])]
+    #[OA\Property(type: 'string', format: 'uuid')]
     private ?Uuid $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'quizzesParticipated')]

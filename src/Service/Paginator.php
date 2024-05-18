@@ -6,6 +6,7 @@ use ArrayIterator;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
+use App\View\PaginatorView;
 
 final class Paginator extends DoctrinePaginator
 {
@@ -65,6 +66,15 @@ final class Paginator extends DoctrinePaginator
                 'has_next_page' => $this->hasNextPage(),
                 'has_previous_page' => $this->hasPreviousPage()
             ],
+            // 'pagination' => new PaginatorView(
+            //     total: $this->totalItems,
+            //     count: count($this->items),
+            //     items_per_page: $this->limit,
+            //     total_pages: $this->totalPages,
+            //     current_page: $this->currentPage,
+            //     has_next_page: $this->hasNextPage(),
+            //     has_previous_page: $this->hasPreviousPage()
+            // )
         ]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use OpenApi\Attributes as OA;
 use App\Entity\Enum\QuizStatus;
 use Symfony\Component\Uid\Uuid;
 use Doctrine\ORM\Mapping as ORM;
@@ -22,6 +23,7 @@ class Quiz
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     #[Groups(['quiz:read'])]
+    #[OA\Property(type: 'string', format: 'uuid')]
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255)]
@@ -41,16 +43,20 @@ class Quiz
     #[ORM\OneToMany(targetEntity: Question::class, mappedBy: 'quiz', orphanRemoval: true)]
     private Collection $questions;
 
+
     #[ORM\Column]
     #[Groups(['quiz:read'])]
+    #[OA\Property(type: 'string')]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
     #[Groups(['quiz:read'])]
+    #[OA\Property(type: 'string', format: 'date-time')]
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'quizzesCreated')]
     #[Groups(['quiz:read'])]
+    #[OA\Property(type: 'string', format: 'date-time')]
     private ?User $createdBy = null;
 
     #[ORM\OneToMany(targetEntity: Participant::class, mappedBy: 'quiz')]
@@ -159,6 +165,7 @@ class Quiz
 
         return $this;
     }
+
 
     #[ORM\PrePersist]
     public function setCreatedAtValue(): void

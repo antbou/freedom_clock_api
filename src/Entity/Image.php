@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use OpenApi\Attributes as OA;
 
-use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
+use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ImageRepository;
+use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -20,6 +21,7 @@ class Image
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     #[Groups(['image:read'])]
+    #[OA\Property(type: 'string', format: 'uuid')]
     private ?Uuid $id = null;
 
     // NOTE: This is not a mapped field of entity metadata, just a simple property.

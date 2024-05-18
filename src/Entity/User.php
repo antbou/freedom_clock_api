@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use OpenApi\Attributes as OA;
 use Symfony\Component\Uid\Uuid;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
@@ -25,6 +26,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     #[Groups(['user:read'])]
+    #[OA\Property(type: 'string', format: 'uuid')]
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
@@ -196,28 +198,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getQuizzesParticipated(): Collection
     {
         return $this->quizzesParticipated;
-    }
-
-    public function addQuizzesParticipated(Participant $quizzesParticipated): static
-    {
-        if (!$this->quizzesParticipated->contains($quizzesParticipated)) {
-            $this->quizzesParticipated->add($quizzesParticipated);
-            $quizzesParticipated->setParticipant($this);
-        }
-
-        return $this;
-    }
-
-    public function removeQuizzesParticipated(Participant $quizzesParticipated): static
-    {
-        if ($this->quizzesParticipated->removeElement($quizzesParticipated)) {
-            // set the owning side to null (unless already changed)
-            if ($quizzesParticipated->getParticipant() === $this) {
-                $quizzesParticipated->setParticipant(null);
-            }
-        }
-
-        return $this;
     }
 
     public function setPlainPassword(string $plainPassword): static
