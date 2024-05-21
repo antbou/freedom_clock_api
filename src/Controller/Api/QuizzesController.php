@@ -3,7 +3,6 @@
 namespace App\Controller\Api;
 
 use App\Entity\Quiz;
-use App\Entity\User;
 use App\View\PaginatorView;
 use App\Factory\ImageFactory;
 use OpenApi\Attributes as OA;
@@ -72,6 +71,7 @@ final class QuizzesController extends AbstractController
                 ),
                 new OA\Property(
                     property: 'pagination',
+                    type: 'object',
                     ref: new Model(type: PaginatorView::class)
                 )
             ]
@@ -89,7 +89,8 @@ final class QuizzesController extends AbstractController
         return $this->json(data: $quizzes, status: Response::HTTP_OK, context: ['groups' => [
             'quiz:read',
             'image:read',
-            'user:read'
+            'user:read',
+            'paginator:read'
         ]]);
     }
 

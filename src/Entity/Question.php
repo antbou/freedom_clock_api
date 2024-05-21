@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use OpenApi\Attributes as OA;
 use Symfony\Component\Uid\Uuid;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Enum\QuestionType;
@@ -19,6 +20,7 @@ class Question
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     #[Groups(['question:read'])]
+    #[OA\Property(type: 'string', format: 'uuid')]
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
