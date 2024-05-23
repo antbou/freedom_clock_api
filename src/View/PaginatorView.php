@@ -8,13 +8,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
 final class PaginatorView
 {
     public function __construct(
-        public int $total,
-        public int $count,
-        public int $items_per_page,
-        public int $total_pages,
-        public int $current_page,
-        public bool $has_next_page,
-        public bool $has_previous_page,
+        public readonly int $total,
+        public readonly int $count,
+        public readonly int $items_per_page,
+        public readonly int $total_pages,
+        public readonly int $current_page,
+        public readonly bool $has_next_page,
+        public readonly bool $has_previous_page,
     ) {
     }
 }

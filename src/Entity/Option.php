@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use OpenApi\Attributes as OA;
 use Symfony\Component\Uid\Uuid;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\OptionRepository;
@@ -20,6 +21,7 @@ class Option
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     #[Groups(['option:read'])]
+    #[OA\Property(type: 'string', format: 'uuid')]
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]

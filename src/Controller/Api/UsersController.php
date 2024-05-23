@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -66,7 +67,7 @@ final class UsersController extends AbstractController
         )
     )]
     public function list(
-        #[MapRequestPayload(acceptFormat: 'json')] UsersDTO $usersDto
+        #[MapQueryString] UsersDTO $usersDto = null
     ): JsonResponse {
         $users = $this->userRepository->findByIds(
             page: $usersDto->pagination?->page,
